@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Marketing Analytics Report{% endblock %}
+
+{% block content %}
+<div class="container">
+    <header>
+        <h1>Marketing Analytics Report</h1>
+        <div class="header-actions">
+            <button id="refreshReport" class="btn btn-primary">Refresh Analysis</button>
+            <button id="downloadReport" class="btn btn-secondary">Export PDF</button>
+        </div>
+    </header>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p>Generating analytics report...</p>
+    </div>
+
+    <div id="reportContent" class="report-content">
+        <!-- Generated Date -->
+        <div class="report-header">
+            <div class="report-date">Report generated: <span id="generatedDate">Loading...</span></div>
+        </div>
+
+        <!-- Report Sections -->
+        <div class="report-section">
+            <h2>Marketing Performance Summary</h2>
+            <div class="section-content">
+                <div class="metrics-summary" id="metricsSummary">
+                    <div class="metric-card skeleton"></div>
+                    <div class="metric-card skeleton"></div>
+                    <div class="metric-card skeleton"></div>
+                    <div class="metric-card skeleton"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Funnel Analysis -->
+        <div class="report-section">
+            <h2>Funnel Analysis</h2>
+            <div class="section-content">
+                <div class="chart-container">
+                    <canvas id="funnelChart"></canvas>
+                </div>
+                <div class="funnel-stats">
+                    <h3>Key Drop-offs</h3>
+                    <div id="dropoffsList" class="dropoffs-list">
+                        <div class="skeleton-text"></div>
+                        <div class="skeleton-text"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campaign Analysis -->
+        <div class="report-section">
+            <h2>Campaign Performance Analysis</h2>
+            <div class="section-content">
+                <div class="two-column-layout">
+                    <div class="column">
+                        <div class="chart-container">
+                            <canvas id="campaignRoiChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="performance-table">
+                            <h3>Campaign Performance</h3>
+                            <table id="campaignTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Campaign</th>
+                                        <th>ROI</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="skeleton-row">
+                                        <td><div class="skeleton-text"></div></td>
+                                        <td><div class="skeleton-text"></div></td>
+                                        <td><div class="skeleton-text"></div></td>
+                                    </tr>
+                                    <tr class="skeleton-row">
+                                        <td><div class="skeleton-text"></div></td>
+                                        <td><div class="skeleton-text"></div></td>
+                                        <td><div class="skeleton-text"></div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Channel Analysis -->
+        <div class="report-section">
+            <h2>Channel Effectiveness</h2>
+            <div class="section-content">
+                <div class="two-column-layout">
+                    <div class="column">
+                        <div class="chart-container">
+                            <canvas id="channelEfficiencyChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="chart-container">
+                            <canvas id="channelCostChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insights and Recommendations -->
+        <div class="report-section">
+            <h2>Insights & Recommendations</h2>
+            <div class="section-content">
+                <div class="two-column-layout">
+                    <div class="column">
+                        <h3>Key Insights</h3>
+                        <div id="insightsList" class="insights-list">
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h3>Recommendations</h3>
+                        <div id="recommendationsList" class="recommendations-list">
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                            <div class="skeleton-text"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Analysis -->
+        <div class="report-section">
+            <h2>Opportunity Analysis</h2>
+            <div class="section-content">
+                <div id="opportunityAnalysis" class="opportunity-analysis">
+                    <p class="skeleton-text"></p>
+                    <p class="skeleton-text"></p>
+                    <p class="skeleton-text"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/analytics.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<!-- Chart.js and plugins -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+<!-- Custom chart utilities -->
+<script src="{{ url_for('static', filename='js/data-validator.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chart-config.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chart-manager.js') }}"></script>
+<script src="{{ url_for('static', filename='js/opportunity-analyzer.js') }}"></script>
+<script src="{{ url_for('static', filename='js/marketing-forecast.js') }}"></script>
+<script src="{{ url_for('static', filename='js/analytics-report.js') }}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize the analytics report
+        loadAnalyticsReport();
+        
+        // Event listeners
+        document.getElementById('refreshReport').addEventListener('click', loadAnalyticsReport);
+        document.getElementById('downloadReport').addEventListener('click', downloadReport);
+    });
+</script>
+{% endblock %}

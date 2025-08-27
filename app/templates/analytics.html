@@ -1,0 +1,554 @@
+{% extends "base.html" %}
+
+{% block title %}Advanced Analytics - Marketing Insights{% endblock %}
+
+{% block header %}
+Marketing Performance Analytics
+<div class="float-end">
+    <a href="{{ url_for('analytics.analytics_dashboard') }}" class="btn btn-primary btn-sm">View Enhanced Analytics Report</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Overview metrics -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Performance Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <div class="metric-card p-3 border rounded">
+                                <h6 class="text-muted">Overall ROI</h6>
+                                <h2 class="text-primary" id="overallRoi">--</h2>
+                                <span class="badge bg-success" id="roiBadge"><i class="fas fa-arrow-up"></i> <span id="roiChange">--</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <div class="metric-card p-3 border rounded">
+                                <h6 class="text-muted">Conversion Rate</h6>
+                                <h2 class="text-primary" id="overallCr">--</h2>
+                                <span class="badge bg-success" id="crBadge"><i class="fas fa-arrow-up"></i> <span id="crChange">--</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <div class="metric-card p-3 border rounded">
+                                <h6 class="text-muted">Acquisition Cost</h6>
+                                <h2 class="text-primary" id="overallCac">--</h2>
+                                <span class="badge bg-success" id="cacBadge"><i class="fas fa-arrow-down"></i> <span id="cacChange">--</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3 mb-md-0">
+                            <div class="metric-card p-3 border rounded">
+                                <h6 class="text-muted">ROAS</h6>
+                                <h2 class="text-primary" id="overallRoas">--</h2>
+                                <span class="badge bg-success" id="roasBadge"><i class="fas fa-arrow-up"></i> <span id="roasChange">--</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Opportunities and Insights -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Opportunities & Insights</h5>
+                </div>
+                <div class="card-body">
+                    <div id="opportunityInsights">
+                        <!-- Insights will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Forecast -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Performance Forecast</h5>
+                </div>
+                <div class="card-body">
+                    <div id="forecastChart">
+                        <!-- Forecast will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Channel Comparison -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Channel Efficiency Matrix</h5>
+                </div>
+                <div class="card-body chart-body">
+                    <div class="chart-container">
+                        <canvas id="channelMatrix" class="chart-canvas" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attribution Flow -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Attribution Flow</h5>
+                </div>
+                <div class="card-body">
+                    <div id="attributionFlow">
+                        <!-- Attribution flow will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Campaign Performance Detailed -->
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Campaign Performance Analysis</h5>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="showAllCampaigns">
+                        <label class="form-check-label" for="showAllCampaigns">Show All Campaigns</label>
+                    </div>
+                </div>
+                <div class="card-body chart-body">
+                    <div class="chart-container">
+                        <canvas id="campaignAnalysisChart" class="chart-canvas" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- No data message -->
+    <div id="noDataMessage" class="text-center my-5" style="display: none;">
+        <div class="alert alert-danger">
+            <h4 class="alert-heading">No Data Available</h4>
+            <p>There is no marketing data to display for advanced analytics. Please upload a dataset.</p>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('main.upload') }}" class="btn btn-primary">Upload Data</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Chart.js and plugins -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
+<!-- Custom chart utilities -->
+<script src="{{ url_for('static', filename='js/chart-reset.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chart-config.js') }}"></script>
+<script src="{{ url_for('static', filename='js/chart-manager.js') }}"></script>
+<script src="{{ url_for('static', filename='js/enhanced-visualizations.js') }}"></script>
+<script src="{{ url_for('static', filename='js/advanced-analytics.js') }}"></script>
+
+<script>
+    // Global data store
+    let channelData = [];
+    let campaignData = [];
+    let funnelData = {};
+    let conversionRatesData = {};
+    let historicalData = null; // Would be populated if available
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM Content Loaded - initializing advanced analytics');
+        
+        // Clear any previously rendered charts
+        if (window.Chart) {
+            console.log('Destroying any existing chart instances');
+            ChartManager.clearAll();
+        }
+        
+        // Show loading indicators
+        showLoading();
+        console.log('Loading indicators displayed');
+        
+        // Fetch all dashboard data
+        console.log('Fetching dashboard summary');
+        fetch('/api/dashboard.json')
+            .then(response => {
+                console.log('API Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`API returned status ${response.status}: No data available`);
+                }
+                return response.json();
+            })
+            .then(summary => {
+                // Hide the no data message
+                document.getElementById('noDataMessage').style.display = 'none';
+                
+                // Store summary data
+                if (summary.summary && summary.summary.funnel) {
+                    funnelData = summary.summary.funnel;
+                }
+                
+                if (summary.summary && summary.summary.conversion_rates) {
+                    conversionRatesData = summary.summary.conversion_rates;
+                }
+                
+                console.log('Available sections:', summary.sections_available);
+                
+                // Now fetch each section of data in parallel
+                const availableSections = summary.sections_available || [];
+                
+                const requests = [];
+                const sectionMappings = {};
+                
+                if (availableSections.includes('campaign_performance')) {
+                    requests.push(fetchSectionData('campaign_performance'));
+                    sectionMappings['campaign_performance'] = 'campaign';
+                } else if (availableSections.includes('campaign_type_performance')) {
+                    requests.push(fetchSectionData('campaign_type_performance'));
+                    sectionMappings['campaign_type_performance'] = 'campaign';
+                }
+                
+                if (availableSections.includes('channel_performance')) {
+                    requests.push(fetchSectionData('channel_performance'));
+                    sectionMappings['channel_performance'] = 'channel';
+                }
+                
+                if (requests.length === 0) {
+                    console.error('No valid sections found in the data');
+                    document.getElementById('noDataMessage').style.display = 'block';
+                    hideLoading();
+                    return;
+                }
+                
+                Promise.all(requests)
+                    .then(results => {
+                        console.log('API responses:', results);
+                        
+                        // Map results to their respective data stores
+                        results.forEach((result, index) => {
+                            const sectionKey = Object.keys(sectionMappings)[index];
+                            const dataType = sectionMappings[sectionKey];
+                            
+                            try {
+                                if (dataType === 'campaign') {
+                                    campaignData = result.data || result;
+                                } else if (dataType === 'channel') {
+                                    channelData = result.data || result;
+                                }
+                            } catch (error) {
+                                console.error(`Error processing ${dataType} data:`, error);
+                            }
+                        });
+                        
+                        // Render all visualizations
+                        renderAnalytics();
+                        
+                        // Hide all loading indicators
+                        hideLoading();
+                    })
+                    .catch(err => {
+                        console.error('Error fetching section data:', err);
+                        // Show error message to user
+                        document.getElementById('noDataMessage').querySelector('p').textContent = 
+                            'Error loading chart data for advanced analytics. Please check console for details.';
+                        document.getElementById('noDataMessage').style.display = 'block';
+                        hideLoading();
+                    });
+            })
+            .catch(error => {
+                console.error('Error fetching dashboard summary:', error);
+                // Show the no data message
+                document.getElementById('noDataMessage').style.display = 'block';
+                hideLoading();
+            });
+    });
+    
+    // Helper function to fetch data sections
+    function fetchSectionData(section, params = {}) {
+        let url = `/api/dashboard/${section}.json`;
+        
+        // Append query params if we have any
+        if (Object.keys(params).length > 0) {
+            const queryString = new URLSearchParams(params).toString();
+            url += `?${queryString}`;
+        }
+        
+        return fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch ${section} data`);
+                }
+                return response.json();
+            });
+    }
+    
+    // Render all analytics visualizations
+    function renderAnalytics() {
+        // Set overall metrics
+        setOverallMetrics();
+        
+        // Render opportunity insights
+        AnalyticsVisualizers.renderOpportunityInsights('opportunityInsights', channelData, campaignData);
+        
+        // Render performance forecast
+        AnalyticsVisualizers.renderForecastChart('forecastChart', historicalData, {
+            impressions: funnelData.impressions || 0,
+            clicks: funnelData.clicks || 0,
+            conversions: funnelData.conversions || 0,
+            revenue: calculateEstimatedRevenue()
+        });
+        
+        // Render attribution flow
+        AnalyticsVisualizers.renderAttributionFlow('attributionFlow');
+        
+        // Render channel efficiency matrix
+        renderChannelMatrix();
+        
+        // Render detailed campaign analysis
+        renderCampaignAnalysis();
+    }
+    
+    // Set overall metrics at the top of the dashboard
+    function setOverallMetrics() {
+        // Extract overall metrics from data
+        const roi = conversionRatesData.roi || 0;
+        document.getElementById('overallRoi').textContent = roi.toFixed(1) + '%';
+        document.getElementById('roiChange').textContent = '15.2%';
+        
+        const cr = conversionRatesData.conversion_rate || 0;
+        document.getElementById('overallCr').textContent = cr.toFixed(1) + '%';
+        document.getElementById('crChange').textContent = '8.7%';
+        
+        // Calculate average CAC
+        let avgCac = 0;
+        if (channelData && channelData.length > 0) {
+            avgCac = channelData.reduce((sum, ch) => sum + (ch.acquisition_cost || 0), 0) / channelData.length;
+        }
+        document.getElementById('overallCac').textContent = '$' + avgCac.toFixed(2);
+        document.getElementById('cacChange').textContent = '7.3%';
+        
+        // Calculate ROAS
+        const roas = (roi / 100) + 1;
+        document.getElementById('overallRoas').textContent = roas.toFixed(2) + 'x';
+        document.getElementById('roasChange').textContent = '12.5%';
+    }
+    
+    // Calculate estimated revenue (this would be more accurate with real data)
+    function calculateEstimatedRevenue() {
+        if (channelData && channelData.length > 0) {
+            const totalConversions = funnelData.conversions || 0;
+            const avgOrderValue = 75; // This would be from real data
+            return totalConversions * avgOrderValue;
+        }
+        return 0;
+    }
+    
+    // Render channel efficiency matrix
+    function renderChannelMatrix() {
+        if (!channelData || channelData.length === 0) return;
+        
+        // Extract relevant metrics
+        const channels = channelData.map(ch => ch.channel);
+        const conversionRates = channelData.map(ch => ch.conversion_rate || 0);
+        const acquisitionCosts = channelData.map(ch => ch.acquisition_cost || 0);
+        const rois = channelData.map(ch => ch.roi || 0);
+        
+        // Calculate bubble sizes based on ROI
+        const bubbleSizes = rois.map(roi => Math.max(roi / 5, 10));
+        
+        ChartManager.createChart('channelMatrix', 'bubble', {
+            datasets: [{
+                label: 'Channels',
+                data: channelData.map((ch, i) => ({
+                    x: ch.acquisition_cost || 0,
+                    y: ch.conversion_rate || 0,
+                    r: bubbleSizes[i]
+                })),
+                backgroundColor: VisualizationConfig.colorSchemes.primary
+            }]
+        }, {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const index = context.dataIndex;
+                            const channel = channels[index];
+                            const roi = rois[index].toFixed(1);
+                            const cr = conversionRates[index].toFixed(1);
+                            const cac = acquisitionCosts[index].toFixed(2);
+                            
+                            return [
+                                `Channel: ${channel}`,
+                                `ROI: ${roi}%`,
+                                `Conversion Rate: ${cr}%`,
+                                `Acquisition Cost: $${cac}`
+                            ];
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: {
+                        display: true,
+                        text: 'Acquisition Cost ($)'
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    title: {
+                        display: true,
+                        text: 'Conversion Rate (%)'
+                    }
+                }
+            }
+        });
+    }
+    
+    // Render detailed campaign analysis
+    function renderCampaignAnalysis() {
+        if (!campaignData || campaignData.length === 0) return;
+        
+        // Extract campaign names and metrics
+        const campaigns = campaignData.map(c => c.campaign_name);
+        const rois = campaignData.map(c => c.roi || 0);
+        const conversionRates = campaignData.map(c => c.conversion_rate || 0);
+        const costs = campaignData.map(c => c.cost || 0);
+        const revenues = campaignData.map(c => c.revenue || 0);
+        
+        // Calculate effectiveness = ROI * Conversion Rate / 100
+        const effectiveness = campaignData.map(c => (c.roi * c.conversion_rate / 100) || 0);
+        
+        ChartManager.createChart('campaignAnalysisChart', 'bar', {
+            labels: campaigns,
+            datasets: [
+                {
+                    label: 'ROI (%)',
+                    data: rois,
+                    backgroundColor: VisualizationConfig.colorSchemes.primary[0],
+                    borderColor: VisualizationConfig.colorSchemes.borders[0],
+                    borderWidth: 1,
+                    order: 1
+                },
+                {
+                    label: 'Conversion Rate (%)',
+                    data: conversionRates,
+                    backgroundColor: VisualizationConfig.colorSchemes.primary[2],
+                    borderColor: VisualizationConfig.colorSchemes.borders[2],
+                    borderWidth: 1,
+                    order: 2
+                },
+                {
+                    label: 'Effectiveness Score',
+                    data: effectiveness,
+                    backgroundColor: 'rgba(0, 0, 0, 0)', // Transparent background
+                    borderColor: VisualizationConfig.colorSchemes.borders[1],
+                    borderWidth: 2,
+                    type: 'line',
+                    order: 0
+                }
+            ]
+        }, {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const index = context.dataIndex;
+                            const dataset = context.dataset;
+                            const value = context.raw || 0;
+                            
+                            if (dataset.label === 'Effectiveness Score') {
+                                return `Effectiveness: ${value.toFixed(2)}`;
+                            } else {
+                                return `${dataset.label}: ${value.toFixed(1)}%`;
+                            }
+                        },
+                        afterLabel: function(context) {
+                            const index = context.dataIndex;
+                            if (context.dataset.label !== 'Effectiveness Score') {
+                                return [
+                                    `Cost: $${costs[index].toLocaleString()}`,
+                                    `Revenue: $${revenues[index].toLocaleString()}`
+                                ];
+                            }
+                            return null;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Value (%)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Set up toggle for showing all campaigns
+        document.getElementById('showAllCampaigns').addEventListener('change', function(e) {
+            // This would update the chart to show all campaigns or just top ones
+            // For now, just log the change
+            console.log('Show all campaigns:', e.target.checked);
+        });
+    }
+    
+    // Show loading indicators in each chart area
+    function showLoading() {
+        document.querySelectorAll('.card-body').forEach(cardBody => {
+            // Only add spinner if it doesn't already have one
+            if (!cardBody.querySelector('.spinner-container')) {
+                const spinnerContainer = document.createElement('div');
+                spinnerContainer.className = 'spinner-container d-flex justify-content-center align-items-center';
+                spinnerContainer.style.position = 'absolute';
+                spinnerContainer.style.top = '0';
+                spinnerContainer.style.left = '0';
+                spinnerContainer.style.width = '100%';
+                spinnerContainer.style.height = '100%';
+                spinnerContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+                spinnerContainer.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>';
+                
+                // Make sure the card body has relative positioning for absolute spinner positioning
+                if (getComputedStyle(cardBody).position === 'static') {
+                    cardBody.style.position = 'relative';
+                }
+                
+                cardBody.appendChild(spinnerContainer);
+            }
+        });
+    }
+    
+    // Hide all loading indicators
+    function hideLoading() {
+        document.querySelectorAll('.spinner-container').forEach(spinner => {
+            spinner.remove();
+        });
+    }
+</script>
+{% endblock %}

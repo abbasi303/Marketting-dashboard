@@ -1,0 +1,274 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Data - Marketing Insights{% endblock %}
+
+{% block header %}Upload Marketing Data{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Upload Marketing Data Files</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Upload your marketing event data or campaign cost data to analyze performance.
+                    </p>
+                    
+            <div class="alert alert-info">
+                <h5>File Requirements:</h5>
+                <p><strong>Marketing Campaign Dataset</strong> should include columns:</p>
+                <ul>
+                    <li><code>Campaign_ID</code>: Unique identifier for each campaign</li>
+                    <li><code>Company</code>: Company name</li>
+                    <li><code>Campaign_Type</code>: Type of campaign</li>
+                    <li><code>Channel_Used</code>: Marketing channel</li>
+                    <li><code>Conversion_Rate</code>: Conversion rate as decimal</li>
+                    <li><code>Acquisition_Cost</code>: Cost per acquisition</li>
+                    <li><code>ROI</code>: Return on investment</li>
+                    <li><code>Clicks</code>: Number of clicks</li>
+                    <li><code>Impressions</code>: Number of impressions</li>
+                    <li><code>Date</code>: Date of campaign</li>
+                </ul>
+                
+                <p><strong>Marketing Events CSV</strong> must include columns:</p>
+                <ul>
+                    <li><code>user_id</code>: Unique identifier for each user</li>
+                    <li><code>event_type</code>: One of: page_view, signup, purchase</li>
+                    <li><code>campaign</code>: Campaign name</li>
+                    <li><code>channel</code>: Marketing channel (e.g., Email, Social, Ads)</li>
+                    <li><code>timestamp</code>: When the event occurred</li>
+                </ul>
+                
+                <p><strong>Campaign Costs CSV</strong> must include columns:</p>
+                <ul>
+                    <li><code>campaign</code>: Campaign name (matching events data)</li>
+                    <li><code>channel</code>: Marketing channel (matching events data)</li>
+                    <li><code>cpc</code>: Cost per click</li>
+                    <li><code>cpm</code>: Cost per thousand impressions</li>
+                </ul>
+            </div>                    <form id="uploadForm" class="mt-4">
+                        <div class="mb-3">
+                            <label for="fileType" class="form-label">File Type</label>
+                            <select class="form-select" id="fileType" name="file_type" required>
+                                <option value="campaign" selected>Marketing Campaign Dataset</option>
+                                <option value="events">Marketing Events</option>
+                                <option value="costs">Campaign Costs</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Choose CSV File</label>
+                            <input class="form-control" type="file" id="formFile" name="file" accept=".csv" required>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Upload Results</h5>
+                </div>
+                <div class="card-body">
+                    <div id="uploadResults" style="display: none;">
+                        <div class="alert alert-success">
+                            <h5 class="alert-heading" id="resultTitle">File uploaded successfully!</h5>
+                            <p id="resultMessage"></p>
+                        </div>
+                        
+                        <h6>Upload Summary:</h6>
+                        <div id="resultSummary"></div>
+                        
+                        <div class="d-grid gap-2 mt-3">
+                            <a href="{{ url_for('main.index') }}" class="btn btn-success">View Dashboard</a>
+                        </div>
+                    </div>
+                    
+                    <div id="uploadError" style="display: none;">
+                        <div class="alert alert-danger">
+                            <h5 class="alert-heading">Upload Failed</h5>
+                            <p id="errorMessage"></p>
+                        </div>
+                        <div id="errorDetails"></div>
+                    </div>
+                    
+                    <div id="initialMessage">
+                        <p class="text-muted">
+                            Upload results will appear here after submission.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const uploadForm = document.getElementById('uploadForm');
+        
+        uploadForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Reset results display
+            document.getElementById('initialMessage').style.display = 'none';
+            document.getElementById('uploadResults').style.display = 'none';
+            document.getElementById('uploadError').style.display = 'none';
+            
+            // Get form data
+            const formData = new FormData(uploadForm);
+            const fileInput = document.getElementById('formFile');
+            const fileType = document.getElementById('fileType').value;
+            
+            // Validate file
+            if (fileInput.files.length === 0) {
+                showError('Please select a file to upload.');
+                return;
+            }
+            
+            // Show loading state
+            const submitButton = uploadForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.textContent = 'Uploading...';
+            submitButton.disabled = true;
+            
+            // Send the file to the API
+            fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Reset button
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                
+                if (data.success) {
+                    // Show success message
+                    document.getElementById('uploadResults').style.display = 'block';
+                    document.getElementById('resultTitle').textContent = 'File uploaded successfully!';
+                    document.getElementById('resultMessage').textContent = data.message;
+                    
+                    // Display summary
+                    renderSummary(data.summary, fileType);
+                    
+                    // Automatically redirect to dashboard after 2 seconds
+                    if (data.redirect) {
+                        setTimeout(() => {
+                            window.location.href = data.redirect;
+                        }, 2000);
+                    }
+                } else {
+                    // Show error
+                    showError(data.error, data.details);
+                }
+            })
+            .catch(error => {
+                // Reset button
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                
+                // Show error
+                showError('Network error occurred. Please try again.');
+                console.error('Upload error:', error);
+            });
+        });
+        
+        // Helper function to show error
+        function showError(message, details) {
+            const errorElement = document.getElementById('uploadError');
+            errorElement.style.display = 'block';
+            document.getElementById('errorMessage').textContent = message;
+            
+            const detailsElement = document.getElementById('errorDetails');
+            detailsElement.innerHTML = '';
+            
+            if (details && Array.isArray(details)) {
+                const list = document.createElement('ul');
+                details.forEach(detail => {
+                    const item = document.createElement('li');
+                    item.textContent = detail;
+                    list.appendChild(item);
+                });
+                detailsElement.appendChild(list);
+            }
+        }
+        
+        // Helper function to render summary
+        function renderSummary(summary, fileType) {
+            const summaryElement = document.getElementById('resultSummary');
+            summaryElement.innerHTML = '';
+            
+            if (fileType === 'events') {
+                // Marketing events summary
+                const table = document.createElement('table');
+                table.className = 'table table-bordered table-sm';
+                
+                // Create table header
+                const headerRow = table.insertRow();
+                ['Metric', 'Value'].forEach(headerText => {
+                    const headerCell = document.createElement('th');
+                    headerCell.textContent = headerText;
+                    headerRow.appendChild(headerCell);
+                });
+                
+                // Add funnel data
+                if (summary.funnel) {
+                    Object.entries(summary.funnel).forEach(([key, value]) => {
+                        const row = table.insertRow();
+                        const metricCell = row.insertCell();
+                        const valueCell = row.insertCell();
+                        
+                        metricCell.textContent = key.charAt(0).toUpperCase() + key.slice(1).replace('_', ' ');
+                        valueCell.textContent = value;
+                    });
+                }
+                
+                // Add conversion rates
+                if (summary.conversion_rates) {
+                    Object.entries(summary.conversion_rates).forEach(([key, value]) => {
+                        const row = table.insertRow();
+                        const metricCell = row.insertCell();
+                        const valueCell = row.insertCell();
+                        
+                        metricCell.textContent = key
+                            .split('_')
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                            .join(' ');
+                        valueCell.textContent = value + '%';
+                    });
+                }
+                
+                summaryElement.appendChild(table);
+            } else if (fileType === 'costs') {
+                // Campaign costs summary
+                const list = document.createElement('ul');
+                list.className = 'list-group';
+                
+                Object.entries(summary).forEach(([key, value]) => {
+                    if (key !== 'error') {
+                        const item = document.createElement('li');
+                        item.className = 'list-group-item d-flex justify-content-between align-items-center';
+                        
+                        const keyFormatted = key
+                            .split('_')
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                            .join(' ');
+                            
+                        item.innerHTML = `${keyFormatted} <span class="badge bg-primary rounded-pill">${value}</span>`;
+                        list.appendChild(item);
+                    }
+                });
+                
+                summaryElement.appendChild(list);
+            }
+        }
+    });
+</script>
+{% endblock %}

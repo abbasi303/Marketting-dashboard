@@ -1,0 +1,90 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  pythonVersion: '3.9'
+
+stages:
+- stage: Test
+  displayName: 'Test'
+  jobs:
+  - job: TestJob
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(pythonVersion)'
+        addToPath: true
+      displayName: 'Use Python $(pythonVersion)'
+
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+      displayName: 'Install dependencies'
+
+    - script: |
+        python -m pip install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      displayName: 'Run lint tests'
+
+    - script: |
+        python -m pytest tests/ --doctest-modules --junitxml=junit/test-results.xml --cov=app --cov-report=xml --cov-report=html
+      displayName: 'Run pytest with coverage'
+      
+    - script: |
+        pip install pip-audit
+        pip-audit --format json --output pip-audit-report.json
+      displayName: 'Run pip-audit for security vulnerabilities'
+      continueOnError: true
+      
+    - script: |
+        pip install pip-licenses
+        pip-licenses --format=json --output-file=license-report.json
+      displayName: 'Generate license report'
+      
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/test-results.xml'
+        testRunTitle: 'Python $(pythonVersion)'
+      condition: succeededOrFailed()
+      displayName: 'Publish test results'
+
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+        reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+      displayName: 'Publish coverage report'
+      
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: 'pip-audit-report.json'
+        artifactName: 'security-report'
+      displayName: 'Publish security report'
+      
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: 'license-report.json'
+        artifactName: 'license-report'
+      displayName: 'Publish license report'
+
+- stage: Build
+  displayName: 'Build'
+  dependsOn: Test
+  condition: succeeded()
+  jobs:
+  - job: BuildDockerImage
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'DockerHub'
+        repository: 'yourorg/marketing-dashboard'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          latest
+          $(Build.BuildId)
+      displayName: 'Build and push Docker image'

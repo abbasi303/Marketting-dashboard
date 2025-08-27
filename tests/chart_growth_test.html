@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Vertical Growth Test</title>
+    
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Include our chart utility scripts -->
+    <script src="../app/static/js/chart-reset.js"></script>
+    <script src="../app/static/js/chart-config.js"></script>
+    <script src="../app/static/js/chart-manager.js"></script>
+    
+    <!-- Include our CSS -->
+    <link rel="stylesheet" href="../app/static/css/chart-styles.css">
+    
+    <!-- Bootstrap for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        .test-controls {
+            padding: 20px;
+            background-color: #f8f9fa;
+            margin-bottom: 20px;
+        }
+        .metrics {
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+        .test-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .test-card {
+            flex: 1 0 45%;
+            min-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Chart Vertical Growth Test</h1>
+        <p>This page tests our fix for the chart vertical growth issue. Run tests below to verify the fix works.</p>
+        
+        <div class="test-controls">
+            <h3>Test Controls</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <button id="testOriginal" class="btn btn-danger">Test Original Problem</button>
+                </div>
+                <div class="col-md-4">
+                    <button id="testFixed" class="btn btn-success">Test Fixed Implementation</button>
+                </div>
+                <div class="col-md-4">
+                    <button id="reset" class="btn btn-secondary">Reset Tests</button>
+                </div>
+            </div>
+            
+            <div class="metrics mt-3">
+                <h4>Metrics:</h4>
+                <div id="originalMetrics">Original Chart Height: <span id="originalHeight">Not measured</span></div>
+                <div id="fixedMetrics">Fixed Chart Height: <span id="fixedHeight">Not measured</span></div>
+                <div id="result" class="mt-2 fw-bold">Result: Not tested</div>
+            </div>
+        </div>
+        
+        <div class="test-container">
+            <!-- Original implementation (with the problem) -->
+            <div class="test-card card">
+                <div class="card-header">Original Implementation (Problem)</div>
+                <div class="card-body">
+                    <div style="height: 300px; position: relative;">
+                        <canvas id="originalChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Fixed implementation -->
+            <div class="test-card card">
+                <div class="card-header">Fixed Implementation</div>
+                <div class="card-body chart-body">
+                    <div class="chart-container">
+                        <canvas id="fixedChart" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <h3>Test Report</h3>
+            <div id="testReport" class="p-3 border rounded">
+                Run tests to generate a report.
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Test data for charts
+        const testData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [{
+                label: 'Sales',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+        
+        // Store chart instances
+        let originalChart = null;
+        let fixedChart = null;
+        
+        // Original implementation (with the growth problem)
+        function renderOriginalChart() {
+            const ctx = document.getElementById('originalChart').getContext('2d');
+            
+            // Destroy previous chart if it exists
+            if (originalChart) {
+                originalChart.destroy();
+            }
+            
+            // Create new chart with the problem (not using maintainAspectRatio: true)
+            originalChart = new Chart(ctx, {
+                type: 'bar',
+                data: testData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Fixed implementation (using our new ChartManager)
+        function renderFixedChart() {
+            // Use our ChartManager to create the chart
+            fixedChart = ChartManager.createChart('fixedChart', 'bar', testData);
+        }
+        
+        // Test the original implementation to demonstrate the growth issue
+        document.getElementById('testOriginal').addEventListener('click', function() {
+            const reportDiv = document.getElementById('testReport');
+            reportDiv.innerHTML = '<p>Running original implementation test...</p>';
+            
+            // First render to establish baseline
+            renderOriginalChart();
+            const originalCanvas = document.getElementById('originalChart');
+            const initialHeight = originalCanvas.height;
+            
+            // Set timeout to simulate multiple renders
+            let counter = 0;
+            const maxRenders = 5;
+            
+            function renderLoop() {
+                if (counter < maxRenders) {
+                    renderOriginalChart();
+                    counter++;
+                    
+                    // Update metrics
+                    const currentHeight = document.getElementById('originalChart').height;
+                    document.getElementById('originalHeight').textContent = `${currentHeight}px (${counter} renders)`;
+                    
+                    if (currentHeight > initialHeight) {
+                        reportDiv.innerHTML += `<p>Growth detected: Initial ${initialHeight}px → Current ${currentHeight}px</p>`;
+                        document.getElementById('result').textContent = 'Result: PROBLEM CONFIRMED - Chart grows vertically';
+                        document.getElementById('result').style.color = 'red';
+                    }
+                    
+                    // Continue the loop
+                    setTimeout(renderLoop, 500);
+                } else {
+                    reportDiv.innerHTML += '<p>Original implementation test complete.</p>';
+                }
+            }
+            
+            renderLoop();
+        });
+        
+        // Test the fixed implementation
+        document.getElementById('testFixed').addEventListener('click', function() {
+            const reportDiv = document.getElementById('testReport');
+            reportDiv.innerHTML = '<p>Running fixed implementation test...</p>';
+            
+            // First render to establish baseline
+            renderFixedChart();
+            const fixedCanvas = document.getElementById('fixedChart');
+            const initialHeight = fixedCanvas.height;
+            
+            // Set timeout to simulate multiple renders
+            let counter = 0;
+            const maxRenders = 5;
+            
+            function renderLoop() {
+                if (counter < maxRenders) {
+                    renderFixedChart();
+                    counter++;
+                    
+                    // Update metrics
+                    const currentHeight = document.getElementById('fixedChart').height;
+                    document.getElementById('fixedHeight').textContent = `${currentHeight}px (${counter} renders)`;
+                    
+                    if (currentHeight === initialHeight) {
+                        reportDiv.innerHTML += `<p>No growth detected: Height stable at ${currentHeight}px</p>`;
+                        document.getElementById('result').textContent = 'Result: FIX CONFIRMED - Chart maintains fixed height';
+                        document.getElementById('result').style.color = 'green';
+                    } else {
+                        reportDiv.innerHTML += `<p>WARNING: Height changed from ${initialHeight}px to ${currentHeight}px</p>`;
+                    }
+                    
+                    // Continue the loop
+                    setTimeout(renderLoop, 500);
+                } else {
+                    reportDiv.innerHTML += '<p>Fixed implementation test complete.</p>';
+                }
+            }
+            
+            renderLoop();
+        });
+        
+        // Reset button
+        document.getElementById('reset').addEventListener('click', function() {
+            // Destroy charts
+            if (originalChart) {
+                originalChart.destroy();
+                originalChart = null;
+            }
+            
+            if (fixedChart) {
+                ChartManager.destroyChart('fixedChart');
+                fixedChart = null;
+            }
+            
+            // Reset metrics
+            document.getElementById('originalHeight').textContent = 'Not measured';
+            document.getElementById('fixedHeight').textContent = 'Not measured';
+            document.getElementById('result').textContent = 'Result: Not tested';
+            document.getElementById('result').style.color = 'inherit';
+            
+            // Reset report
+            document.getElementById('testReport').innerHTML = 'Run tests to generate a report.';
+            
+            // Reset canvases
+            const originalCanvas = document.getElementById('originalChart');
+            const originalCtx = originalCanvas.getContext('2d');
+            originalCtx.clearRect(0, 0, originalCanvas.width, originalCanvas.height);
+            
+            resetCanvas('fixedChart');
+        });
+        
+        // Initial chart renders
+        renderOriginalChart();
+        renderFixedChart();
+    </script>
+</body>
+</html>

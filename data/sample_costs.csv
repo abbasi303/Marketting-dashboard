@@ -1,0 +1,10 @@
+campaign,channel,cpc,cpm
+SpringSale,Email,0.50,10.00
+SpringSale,Social,0.75,15.00
+SpringSale,Ads,1.20,25.00
+BrandPush,Email,0.45,8.00
+BrandPush,Social,0.65,12.00
+BrandPush,Ads,1.00,20.00
+Retarget,Email,0.30,5.00
+Retarget,Social,0.40,7.00
+Retarget,Ads,0.80,15.00
