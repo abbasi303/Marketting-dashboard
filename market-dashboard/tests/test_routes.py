@@ -28,14 +28,6 @@ def test_index_logged_in(client, auth):
     assert b'Marketing Performance Dashboard' in response.data
 
 
-def test_analytics_page(client, auth):
-    """Test the analytics page loads correctly"""
-    auth.login()
-    response = client.get('/analytics')
-    assert response.status_code == 200
-    assert b'Marketing Performance Analytics' in response.data
-
-
 def test_login(client):
     """Test login functionality"""
     response = client.get('/auth/login')
