@@ -1,0 +1,1692 @@
+{
+  "name": "Marketing Insights Dashboard",
+  "version": "1.0.0",
+  "description": "Flask-based marketing analytics dashboard with KPI calculations and visualizations",
+  "projectType": "PRODUCT",
+  "businessUnit": "Analytics",
+  "tag": "marketing-dashboard",
+  "projectResponsible": "Development Team",
+  "created": "2025-08-28T20:30:04.875733",
+  "components": [
+    {
+      "name": "CacheControl",
+      "version": "0.14.3",
+      "license": "UNKNOWN",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/CacheControl/",
+      "downloadUrl": "https://pypi.org/project/CacheControl/0.14.3/",
+      "riskAssessment": "MEDIUM",
+      "clearingState": "UNDER_CLEARING",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "Flask",
+      "version": "3.1.1",
+      "license": "UNKNOWN",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/Flask/",
+      "downloadUrl": "https://pypi.org/project/Flask/3.1.1/",
+      "riskAssessment": "MEDIUM",
+      "clearingState": "UNDER_CLEARING",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "Flask-Login",
+      "version": "0.6.3",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/Flask-Login/",
+      "downloadUrl": "https://pypi.org/project/Flask-Login/0.6.3/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "Flask-Migrate",
+      "version": "4.1.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/Flask-Migrate/",
+      "downloadUrl": "https://pypi.org/project/Flask-Migrate/4.1.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "Flask-SQLAlchemy",
+      "version": "3.1.1",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/Flask-SQLAlchemy/",
+      "downloadUrl": "https://pypi.org/project/Flask-SQLAlchemy/3.1.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "Jinja2",
+      "version": "3.1.6",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/Jinja2/",
+      "downloadUrl": "https://pypi.org/project/Jinja2/3.1.6/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "Mako",
+      "version": "1.3.10",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/Mako/",
+      "downloadUrl": "https://pypi.org/project/Mako/1.3.10/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "MarkupSafe",
+      "version": "3.0.2",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/MarkupSafe/",
+      "downloadUrl": "https://pypi.org/project/MarkupSafe/3.0.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "PyYAML",
+      "version": "6.0.2",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/PyYAML/",
+      "downloadUrl": "https://pypi.org/project/PyYAML/6.0.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "Pygments",
+      "version": "2.18.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/Pygments/",
+      "downloadUrl": "https://pypi.org/project/Pygments/2.18.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "SQLAlchemy",
+      "version": "2.0.43",
+      "license": "MIT",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/SQLAlchemy/",
+      "downloadUrl": "https://pypi.org/project/SQLAlchemy/2.0.43/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "Sphinx",
+      "version": "8.1.3",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/Sphinx/",
+      "downloadUrl": "https://pypi.org/project/Sphinx/8.1.3/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "Werkzeug",
+      "version": "3.1.3",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/Werkzeug/",
+      "downloadUrl": "https://pypi.org/project/Werkzeug/3.1.3/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "aiosmtpd",
+      "version": "1.4.6",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/aiosmtpd/",
+      "downloadUrl": "https://pypi.org/project/aiosmtpd/1.4.6/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "alabaster",
+      "version": "1.0.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/alabaster/",
+      "downloadUrl": "https://pypi.org/project/alabaster/1.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "alembic",
+      "version": "1.16.5",
+      "license": "UNKNOWN",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/alembic/",
+      "downloadUrl": "https://pypi.org/project/alembic/1.16.5/",
+      "riskAssessment": "MEDIUM",
+      "clearingState": "UNDER_CLEARING",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "anyio",
+      "version": "4.7.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/anyio/",
+      "downloadUrl": "https://pypi.org/project/anyio/4.7.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "atpublic",
+      "version": "5.0",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/atpublic/",
+      "downloadUrl": "https://pypi.org/project/atpublic/5.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "attrs",
+      "version": "24.2.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/attrs/",
+      "downloadUrl": "https://pypi.org/project/attrs/24.2.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "babel",
+      "version": "2.16.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/babel/",
+      "downloadUrl": "https://pypi.org/project/babel/2.16.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "blinker",
+      "version": "1.9.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/blinker/",
+      "downloadUrl": "https://pypi.org/project/blinker/1.9.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "boolean.py",
+      "version": "5.0",
+      "license": "BSD-2-Clause",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/boolean.py/",
+      "downloadUrl": "https://pypi.org/project/boolean.py/5.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "build",
+      "version": "1.2.2.post1",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/build/",
+      "downloadUrl": "https://pypi.org/project/build/1.2.2.post1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "certifi",
+      "version": "2024.8.30",
+      "license": "Mozilla Public License 2.0 (MPL 2.0)",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/certifi/",
+      "downloadUrl": "https://pypi.org/project/certifi/2024.8.30/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.4.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/charset-normalizer/",
+      "downloadUrl": "https://pypi.org/project/charset-normalizer/3.4.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "click",
+      "version": "8.1.7",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/click/",
+      "downloadUrl": "https://pypi.org/project/click/8.1.7/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "colorama",
+      "version": "0.4.6",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/colorama/",
+      "downloadUrl": "https://pypi.org/project/colorama/0.4.6/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "colorclass",
+      "version": "2.2.2",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/colorclass/",
+      "downloadUrl": "https://pypi.org/project/colorclass/2.2.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "coverage",
+      "version": "7.6.9",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/coverage/",
+      "downloadUrl": "https://pypi.org/project/coverage/7.6.9/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "cyclonedx-python-lib",
+      "version": "9.1.0",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/cyclonedx-python-lib/",
+      "downloadUrl": "https://pypi.org/project/cyclonedx-python-lib/9.1.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "defusedxml",
+      "version": "0.7.1",
+      "license": "Python Software Foundation License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/defusedxml/",
+      "downloadUrl": "https://pypi.org/project/defusedxml/0.7.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "docutils",
+      "version": "0.21.2",
+      "license": "BSD License; GNU General Public License (GPL); Public Domain; Python Software Foundation License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/docutils/",
+      "downloadUrl": "https://pypi.org/project/docutils/0.21.2/",
+      "riskAssessment": "HIGH",
+      "clearingState": "NEW_CLEARING",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "et_xmlfile",
+      "version": "2.0.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/et_xmlfile/",
+      "downloadUrl": "https://pypi.org/project/et_xmlfile/2.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "filelock",
+      "version": "3.19.1",
+      "license": "The Unlicense (Unlicense)",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/filelock/",
+      "downloadUrl": "https://pypi.org/project/filelock/3.19.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "flask-url-map-serializer",
+      "version": "0.0.1",
+      "license": "MIT",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/flask-url-map-serializer/",
+      "downloadUrl": "https://pypi.org/project/flask-url-map-serializer/0.0.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "freezegun",
+      "version": "1.5.1",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/freezegun/",
+      "downloadUrl": "https://pypi.org/project/freezegun/1.5.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "greenlet",
+      "version": "3.1.1",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/greenlet/",
+      "downloadUrl": "https://pypi.org/project/greenlet/3.1.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "h11",
+      "version": "0.16.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/h11/",
+      "downloadUrl": "https://pypi.org/project/h11/0.16.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "hatch-requirements-txt",
+      "version": "0.4.1",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/hatch-requirements-txt/",
+      "downloadUrl": "https://pypi.org/project/hatch-requirements-txt/0.4.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "hatchling",
+      "version": "1.27.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/hatchling/",
+      "downloadUrl": "https://pypi.org/project/hatchling/1.27.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "idna",
+      "version": "3.10",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/idna/",
+      "downloadUrl": "https://pypi.org/project/idna/3.10/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "imagesize",
+      "version": "1.4.1",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/imagesize/",
+      "downloadUrl": "https://pypi.org/project/imagesize/1.4.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "iniconfig",
+      "version": "2.0.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/iniconfig/",
+      "downloadUrl": "https://pypi.org/project/iniconfig/2.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "isort",
+      "version": "5.13.2",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/isort/",
+      "downloadUrl": "https://pypi.org/project/isort/5.13.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "itsdangerous",
+      "version": "2.2.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/itsdangerous/",
+      "downloadUrl": "https://pypi.org/project/itsdangerous/2.2.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "license-expression",
+      "version": "30.4.4",
+      "license": "Apache-2.0",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/license-expression/",
+      "downloadUrl": "https://pypi.org/project/license-expression/30.4.4/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.0.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/markdown-it-py/",
+      "downloadUrl": "https://pypi.org/project/markdown-it-py/4.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/mdurl/",
+      "downloadUrl": "https://pypi.org/project/mdurl/0.1.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "migra",
+      "version": "3.0.1663481299",
+      "license": "Other/Proprietary License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/migra/",
+      "downloadUrl": "https://pypi.org/project/migra/3.0.1663481299/",
+      "riskAssessment": "HIGH",
+      "clearingState": "NEW_CLEARING",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "mirakuru",
+      "version": "2.5.3",
+      "license": "GNU Lesser General Public License v3 or later (LGPLv3+)",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/mirakuru/",
+      "downloadUrl": "https://pypi.org/project/mirakuru/2.5.3/",
+      "riskAssessment": "MEDIUM",
+      "clearingState": "UNDER_CLEARING",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "msgpack",
+      "version": "1.1.1",
+      "license": "Apache 2.0",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/msgpack/",
+      "downloadUrl": "https://pypi.org/project/msgpack/1.1.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "numpy",
+      "version": "2.3.2",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/numpy/",
+      "downloadUrl": "https://pypi.org/project/numpy/2.3.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "openpyxl",
+      "version": "3.1.5",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/openpyxl/",
+      "downloadUrl": "https://pypi.org/project/openpyxl/3.1.5/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "packageurl-python",
+      "version": "0.17.5",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/packageurl-python/",
+      "downloadUrl": "https://pypi.org/project/packageurl-python/0.17.5/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "packaging",
+      "version": "24.2",
+      "license": "Apache Software License; BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/packaging/",
+      "downloadUrl": "https://pypi.org/project/packaging/24.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pandas",
+      "version": "2.3.2",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pandas/",
+      "downloadUrl": "https://pypi.org/project/pandas/2.3.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pathspec",
+      "version": "0.12.1",
+      "license": "Mozilla Public License 2.0 (MPL 2.0)",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pathspec/",
+      "downloadUrl": "https://pypi.org/project/pathspec/0.12.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pip-api",
+      "version": "0.0.34",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pip-api/",
+      "downloadUrl": "https://pypi.org/project/pip-api/0.0.34/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pip-requirements-parser",
+      "version": "32.0.1",
+      "license": "MIT",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pip-requirements-parser/",
+      "downloadUrl": "https://pypi.org/project/pip-requirements-parser/32.0.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pip_audit",
+      "version": "2.9.0",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pip_audit/",
+      "downloadUrl": "https://pypi.org/project/pip_audit/2.9.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "plantweb",
+      "version": "1.3.0",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/plantweb/",
+      "downloadUrl": "https://pypi.org/project/plantweb/1.3.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "platformdirs",
+      "version": "4.4.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/platformdirs/",
+      "downloadUrl": "https://pypi.org/project/platformdirs/4.4.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pluggy",
+      "version": "1.5.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pluggy/",
+      "downloadUrl": "https://pypi.org/project/pluggy/1.5.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "port-for",
+      "version": "0.7.4",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/port-for/",
+      "downloadUrl": "https://pypi.org/project/port-for/0.7.4/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "psutil",
+      "version": "6.1.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/psutil/",
+      "downloadUrl": "https://pypi.org/project/psutil/6.1.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "py-serializable",
+      "version": "2.1.0",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/py-serializable/",
+      "downloadUrl": "https://pypi.org/project/py-serializable/2.1.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pyparsing",
+      "version": "3.2.3",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pyparsing/",
+      "downloadUrl": "https://pypi.org/project/pyparsing/3.2.3/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pyproject_hooks",
+      "version": "1.2.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pyproject_hooks/",
+      "downloadUrl": "https://pypi.org/project/pyproject_hooks/1.2.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pytest",
+      "version": "8.3.4",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pytest/",
+      "downloadUrl": "https://pypi.org/project/pytest/8.3.4/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pytest-cov",
+      "version": "6.0.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pytest-cov/",
+      "downloadUrl": "https://pypi.org/project/pytest-cov/6.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pytest-localserver",
+      "version": "0.9.0.post0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pytest-localserver/",
+      "downloadUrl": "https://pypi.org/project/pytest-localserver/0.9.0.post0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pytest-mock",
+      "version": "3.14.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pytest-mock/",
+      "downloadUrl": "https://pypi.org/project/pytest-mock/3.14.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pytest-redis",
+      "version": "3.1.3",
+      "license": "GNU Lesser General Public License v3 or later (LGPLv3+)",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pytest-redis/",
+      "downloadUrl": "https://pypi.org/project/pytest-redis/3.1.3/",
+      "riskAssessment": "MEDIUM",
+      "clearingState": "UNDER_CLEARING",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pytest-snapshot",
+      "version": "0.9.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pytest-snapshot/",
+      "downloadUrl": "https://pypi.org/project/pytest-snapshot/0.9.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "license": "Apache Software License; BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/python-dateutil/",
+      "downloadUrl": "https://pypi.org/project/python-dateutil/2.9.0.post0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "pytz",
+      "version": "2025.2",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/pytz/",
+      "downloadUrl": "https://pypi.org/project/pytz/2025.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "redis",
+      "version": "5.2.1",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/redis/",
+      "downloadUrl": "https://pypi.org/project/redis/5.2.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "requests",
+      "version": "2.32.4",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/requests/",
+      "downloadUrl": "https://pypi.org/project/requests/2.32.4/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "responses",
+      "version": "0.25.3",
+      "license": "Apache 2.0",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/responses/",
+      "downloadUrl": "https://pypi.org/project/responses/0.25.3/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "rich",
+      "version": "14.1.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/rich/",
+      "downloadUrl": "https://pypi.org/project/rich/14.1.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "ruff",
+      "version": "0.12.8",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/ruff/",
+      "downloadUrl": "https://pypi.org/project/ruff/0.12.8/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "schemainspect",
+      "version": "3.1.1663587362",
+      "license": "Other/Proprietary License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/schemainspect/",
+      "downloadUrl": "https://pypi.org/project/schemainspect/3.1.1663587362/",
+      "riskAssessment": "HIGH",
+      "clearingState": "NEW_CLEARING",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/six/",
+      "downloadUrl": "https://pypi.org/project/six/1.17.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sniffio",
+      "version": "1.3.1",
+      "license": "Apache Software License; MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sniffio/",
+      "downloadUrl": "https://pypi.org/project/sniffio/1.3.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "snowballstemmer",
+      "version": "2.2.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/snowballstemmer/",
+      "downloadUrl": "https://pypi.org/project/snowballstemmer/2.2.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sortedcontainers",
+      "version": "2.4.0",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sortedcontainers/",
+      "downloadUrl": "https://pypi.org/project/sortedcontainers/2.4.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinx-autobuild",
+      "version": "2024.10.3",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinx-autobuild/",
+      "downloadUrl": "https://pypi.org/project/sphinx-autobuild/2024.10.3/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinx-issues",
+      "version": "5.0.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinx-issues/",
+      "downloadUrl": "https://pypi.org/project/sphinx-issues/5.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinx-rtd-theme",
+      "version": "3.0.2",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinx-rtd-theme/",
+      "downloadUrl": "https://pypi.org/project/sphinx-rtd-theme/3.0.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinx_reredirects",
+      "version": "0.1.5",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinx_reredirects/",
+      "downloadUrl": "https://pypi.org/project/sphinx_reredirects/0.1.5/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinxcontrib-applehelp",
+      "version": "2.0.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinxcontrib-applehelp/",
+      "downloadUrl": "https://pypi.org/project/sphinxcontrib-applehelp/2.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinxcontrib-devhelp",
+      "version": "2.0.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinxcontrib-devhelp/",
+      "downloadUrl": "https://pypi.org/project/sphinxcontrib-devhelp/2.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinxcontrib-htmlhelp",
+      "version": "2.1.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinxcontrib-htmlhelp/",
+      "downloadUrl": "https://pypi.org/project/sphinxcontrib-htmlhelp/2.1.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinxcontrib-jquery",
+      "version": "4.1",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinxcontrib-jquery/",
+      "downloadUrl": "https://pypi.org/project/sphinxcontrib-jquery/4.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinxcontrib-jsmath",
+      "version": "1.0.1",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinxcontrib-jsmath/",
+      "downloadUrl": "https://pypi.org/project/sphinxcontrib-jsmath/1.0.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinxcontrib-mermaid",
+      "version": "1.0.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinxcontrib-mermaid/",
+      "downloadUrl": "https://pypi.org/project/sphinxcontrib-mermaid/1.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinxcontrib-qthelp",
+      "version": "2.0.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinxcontrib-qthelp/",
+      "downloadUrl": "https://pypi.org/project/sphinxcontrib-qthelp/2.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sphinxcontrib-serializinghtml",
+      "version": "2.0.0",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sphinxcontrib-serializinghtml/",
+      "downloadUrl": "https://pypi.org/project/sphinxcontrib-serializinghtml/2.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sqlbag",
+      "version": "0.1.1617247075",
+      "license": "UNKNOWN",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sqlbag/",
+      "downloadUrl": "https://pypi.org/project/sqlbag/0.1.1617247075/",
+      "riskAssessment": "MEDIUM",
+      "clearingState": "UNDER_CLEARING",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "sqlparse",
+      "version": "0.5.3",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/sqlparse/",
+      "downloadUrl": "https://pypi.org/project/sqlparse/0.5.3/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "starlette",
+      "version": "0.47.2",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/starlette/",
+      "downloadUrl": "https://pypi.org/project/starlette/0.47.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "toml",
+      "version": "0.10.2",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/toml/",
+      "downloadUrl": "https://pypi.org/project/toml/0.10.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "tomlkit",
+      "version": "0.13.2",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/tomlkit/",
+      "downloadUrl": "https://pypi.org/project/tomlkit/0.13.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "trove-classifiers",
+      "version": "2024.10.21.16",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/trove-classifiers/",
+      "downloadUrl": "https://pypi.org/project/trove-classifiers/2024.10.21.16/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.12.2",
+      "license": "Python Software Foundation License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/typing_extensions/",
+      "downloadUrl": "https://pypi.org/project/typing_extensions/4.12.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "tzdata",
+      "version": "2025.2",
+      "license": "Apache Software License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/tzdata/",
+      "downloadUrl": "https://pypi.org/project/tzdata/2025.2/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "unbeheader",
+      "version": "1.4.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/unbeheader/",
+      "downloadUrl": "https://pypi.org/project/unbeheader/1.4.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "urllib3",
+      "version": "2.5.0",
+      "license": "UNKNOWN",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/urllib3/",
+      "downloadUrl": "https://pypi.org/project/urllib3/2.5.0/",
+      "riskAssessment": "MEDIUM",
+      "clearingState": "UNDER_CLEARING",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "uv",
+      "version": "0.8.6",
+      "license": "Apache Software License; MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/uv/",
+      "downloadUrl": "https://pypi.org/project/uv/0.8.6/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "uvicorn",
+      "version": "0.32.1",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/uvicorn/",
+      "downloadUrl": "https://pypi.org/project/uvicorn/0.32.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "watchfiles",
+      "version": "1.0.0",
+      "license": "MIT License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/watchfiles/",
+      "downloadUrl": "https://pypi.org/project/watchfiles/1.0.0/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    },
+    {
+      "name": "websockets",
+      "version": "14.1",
+      "license": "BSD License",
+      "componentType": "OSS",
+      "categories": [
+        "Framework",
+        "Library"
+      ],
+      "homepage": "https://pypi.org/project/websockets/",
+      "downloadUrl": "https://pypi.org/project/websockets/14.1/",
+      "riskAssessment": "LOW",
+      "clearingState": "APPROVED",
+      "vulnerabilities": 0
+    }
+  ]
+}

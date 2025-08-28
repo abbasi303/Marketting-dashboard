@@ -1,0 +1,48 @@
+{
+  "scan_timestamp": "2025-08-28T20:35:00",
+  "total_packages": 108,
+  "unknown_licenses": 5,
+  "risky_licenses": 0,
+  "compliance_score": 95.37,
+  "unknown_details": [
+    [
+      "CacheControl",
+      "0.14.3",
+      "UNKNOWN"
+    ],
+    [
+      "Flask",
+      "3.1.1",
+      "UNKNOWN"
+    ],
+    [
+      "alembic",
+      "1.16.5",
+      "UNKNOWN"
+    ],
+    [
+      "sqlbag",
+      "0.1.1617247075",
+      "UNKNOWN"
+    ],
+    [
+      "urllib3",
+      "2.5.0",
+      "UNKNOWN"
+    ]
+  ],
+  "risky_details": [],
+  "recommendations": {
+    "immediate_action": [
+      "Investigate unknown licenses for migra and schemainspect",
+      "Verify Flask license (should be BSD)",
+      "Review LGPL compatibility for mirakuru"
+    ],
+    "compliance_steps": [
+      "Contact package maintainers for license clarification",
+      "Consider alternative packages with clear licensing",
+      "Document license compatibility decisions",
+      "Implement license monitoring in CI/CD"
+    ]
+  }
+}

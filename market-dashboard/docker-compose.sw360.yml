@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  # SW360 Database (PostgreSQL)
+  sw360-db:
+    image: postgres:13
+    container_name: sw360-db
+    environment:
+      POSTGRES_DB: sw360
+      POSTGRES_USER: sw360
+      POSTGRES_PASSWORD: sw360password
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - sw360_db_data:/var/lib/postgresql/data
+    networks:
+      - sw360-network
+    restart: unless-stopped
+
+  # CouchDB for SW360 document storage
+  sw360-couchdb:
+    image: couchdb:3.2
+    container_name: sw360-couchdb
+    environment:
+      COUCHDB_USER: sw360
+      COUCHDB_PASSWORD: sw360password
+    ports:
+      - "5984:5984"
+    volumes:
+      - sw360_couchdb_data:/opt/couchdb/data
+    networks:
+      - sw360-network
+    restart: unless-stopped
+
+  # SW360 Application Server
+  sw360-app:
+    image: sw360/sw360:latest
+    container_name: sw360-app
+    depends_on:
+      - sw360-db
+      - sw360-couchdb
+    environment:
+      # Database Configuration
+      DB_TYPE: postgresql
+      DB_HOST: sw360-db
+      DB_PORT: 5432
+      DB_NAME: sw360
+      DB_USER: sw360
+      DB_PASSWORD: sw360password
+      
+      # CouchDB Configuration
+      COUCHDB_HOST: sw360-couchdb
+      COUCHDB_PORT: 5984
+      COUCHDB_USER: sw360
+      COUCHDB_PASSWORD: sw360password
+      
+      # SW360 Configuration
+      SW360_ADMIN_EMAIL: admin@sw360.org
+      SW360_ADMIN_PASSWORD: sw360admin
+      SW360_HOST: localhost
+      SW360_PORT: 8080
+      
+      # Java Configuration
+      JAVA_OPTS: "-Xmx2g -Xms512m"
+      
+    ports:
+      - "8080:8080"
+    volumes:
+      - sw360_app_data:/app/data
+      - ./docs:/app/import:ro  # Mount docs folder for importing our export files
+    networks:
+      - sw360-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # SW360 REST API Service
+  sw360-rest:
+    image: sw360/sw360-rest:latest
+    container_name: sw360-rest
+    depends_on:
+      - sw360-app
+    environment:
+      SW360_HOST: sw360-app
+      SW360_PORT: 8080
+      REST_PORT: 8091
+    ports:
+      - "8091:8091"
+    networks:
+      - sw360-network
+    restart: unless-stopped
+
+volumes:
+  sw360_db_data:
+    driver: local
+  sw360_couchdb_data:
+    driver: local
+  sw360_app_data:
+    driver: local
+
+networks:
+  sw360-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

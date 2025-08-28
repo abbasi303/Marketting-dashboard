@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Insights Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: var(--primary-gradient) !important;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .kpi-card {
+            background: white;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            height: 140px;
+        }
+        
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+        
+        .kpi-card.success::before { background: var(--success-gradient); }
+        .kpi-card.warning::before { background: var(--warning-gradient); }
+        .kpi-card.info::before { background: var(--info-gradient); }
+        
+        .kpi-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 10px 0;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            height: 400px;
+            position: relative;
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 320px;
+            width: 100%;
+        }
+        
+        .chart-container canvas {
+            max-height: 320px !important;
+        }
+        
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .upload-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .btn-gradient {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+        
+        .user-info {
+            background: rgba(255,255,255,0.2);
+            border-radius: 25px;
+            padding: 8px 20px;
+            margin-left: 15px;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+        
+        .table th {
+            background: #f8f9fa;
+            border: none;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .performance-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .icon-lg {
+            font-size: 3rem;
+            opacity: 0.1;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        
+        /* Chart size constraints */
+        .chart-container {
+            overflow: hidden;
+        }
+        
+        .chart-wrapper canvas {
+            max-width: 100% !important;
+            max-height: 320px !important;
+            height: 320px !important;
+        }
+        
+        /* Ensure doughnut charts maintain proper size */
+        #channelChart {
+            max-height: 280px !important;
+            height: 280px !important;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+            .chart-wrapper {
+                height: 270px;
+            }
+            .chart-wrapper canvas {
+                max-height: 270px !important;
+                height: 270px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-graph-up me-2"></i>Marketing Insights Dashboard
+            </a>
+            <div class="navbar-nav ms-auto">
+                {% if username %}
+                <span class="user-info text-white">
+                    <i class="bi bi-person-circle me-2"></i>{{ username.title() }} ({{ role }})
+                </span>
+                {% if role == 'Admin' %}
+                <a class="btn btn-outline-light btn-sm ms-2" href="/set-role">
+                    <i class="bi bi-gear me-1"></i>Settings
+                </a>
+                {% endif %}
+                <a class="btn btn-outline-light btn-sm ms-2" href="/logout">
+                    <i class="bi bi-box-arrow-right me-1"></i>Logout
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        
+        <!-- Upload Section (Admin/Editor only) -->
+        {% if role in ['Admin', 'Editor'] %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="upload-section">
+                    <h4><i class="bi bi-cloud-upload me-2"></i>Upload Marketing Data</h4>
+                    <p class="text-muted mb-3">Upload your marketing campaign dataset and optional costs file (Max 50MB per file)</p>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="eventsFile" class="form-label">
+                                        <i class="bi bi-file-earmark-spreadsheet me-2"></i>Events CSV (Required)
+                                    </label>
+                                    <input class="form-control" type="file" id="eventsFile" name="events_csv" accept=".csv" required>
+                                    <small class="form-text text-muted">Must contain: Campaign_ID, Channel_Used, Clicks, Impressions, Conversion_Rate, Date</small>
+                                    <small class="form-text text-muted">Maximum file size: 50MB</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="costsFile" class="form-label">
+                                        <i class="bi bi-currency-dollar me-2"></i>Costs CSV (Optional)
+                                    </label>
+                                    <input class="form-control" type="file" id="costsFile" name="costs_csv" accept=".csv">
+                                    <small class="form-text text-muted">Must contain: campaign, channel, cpc, cpm</small>
+                                    <small class="form-text text-muted">Maximum file size: 50MB</small>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-gradient">
+                            <i class="bi bi-upload me-2"></i>Upload Files
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Alert Container -->
+        <div class="row">
+            <div class="col-12">
+                <div id="alertContainer"></div>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="kpi-card text-center">
+                    <div class="card-body">
+                        <i class="bi bi-eye icon-lg text-primary"></i>
+                        <h5 class="card-title text-primary mt-2">Views</h5>
+                        <div class="kpi-value" id="viewsCount">-</div>
+                        <small class="text-muted">Total Impressions</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="kpi-card success text-center">
+                    <div class="card-body">
+                        <i class="bi bi-cursor icon-lg text-success"></i>
+                        <h5 class="card-title text-success mt-2">Signups</h5>
+                        <div class="kpi-value text-success" id="signupsCount">-</div>
+                        <small class="text-muted">Total Clicks</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="kpi-card warning text-center">
+                    <div class="card-body">
+                        <i class="bi bi-cart-check icon-lg text-warning"></i>
+                        <h5 class="card-title text-warning mt-2">Purchases</h5>
+                        <div class="kpi-value text-warning" id="purchasesCount">-</div>
+                        <small class="text-muted">Estimated Conversions</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="kpi-card info text-center">
+                    <div class="card-body">
+                        <i class="bi bi-cash-stack icon-lg text-info"></i>
+                        <h5 class="card-title text-info mt-2">Est. CAC</h5>
+                        <div class="kpi-value text-info" id="cacValue">$-</div>
+                        <small class="text-muted">Customer Acquisition Cost</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Stats Row -->
+        <div class="row mb-4">
+            <div class="col-md-2">
+                <div class="metric-card text-center">
+                    <h6 class="text-muted">Overall CTR</h6>
+                    <h4 class="text-primary" id="overallCTR">-</h4>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="metric-card text-center">
+                    <h6 class="text-muted">Avg. Conv. Rate</h6>
+                    <h4 class="text-success" id="avgConvRate">-</h4>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="metric-card text-center">
+                    <h6 class="text-muted">Campaigns</h6>
+                    <h4 class="text-info" id="totalCampaigns">-</h4>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="metric-card text-center">
+                    <h6 class="text-muted">Channels</h6>
+                    <h4 class="text-warning" id="totalChannels">-</h4>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="metric-card text-center">
+                    <h6 class="text-muted">Data Period</h6>
+                    <h6 class="text-info" id="dataPeriod">-</h6>
+                    <small class="text-muted" id="bestPerformance">-</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 1 -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="chart-title"><i class="bi bi-funnel me-2"></i>Marketing Funnel</h5>
+                    <div class="chart-wrapper">
+                        <canvas id="funnelChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="chart-title"><i class="bi bi-bar-chart me-2"></i>Top Campaigns Performance</h5>
+                    <div class="chart-wrapper">
+                        <canvas id="campaignsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 2 -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="chart-title"><i class="bi bi-graph-up me-2"></i>Channel Performance</h5>
+                    <div class="chart-wrapper">
+                        <canvas id="channelChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="chart-title"><i class="bi bi-calendar-week me-2"></i>Monthly Trends</h5>
+                    <div class="chart-wrapper">
+                        <canvas id="monthlyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Tables -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="table-container">
+                    <div class="p-3">
+                        <h5><i class="bi bi-list-columns me-2"></i>Channel Performance</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0" id="channelTable">
+                            <thead>
+                                <tr>
+                                    <th>Channel</th>
+                                    <th>Clicks</th>
+                                    <th>CTR %</th>
+                                    <th>Purchases</th>
+                                    <th>Performance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">
+                                        <i class="bi bi-upload fs-1 d-block mb-2"></i>
+                                        Upload data to see channel performance
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="table-container">
+                    <div class="p-3">
+                        <h5><i class="bi bi-trophy me-2"></i>Top Campaigns</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0" id="campaignTable">
+                            <thead>
+                                <tr>
+                                    <th>Campaign</th>
+                                    <th>Channel</th>
+                                    <th>Conv. Rate</th>
+                                    <th>Purchases</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">
+                                        <i class="bi bi-upload fs-1 d-block mb-2"></i>
+                                        Upload data to see campaign performance
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let funnelChart, campaignsChart, channelChart, monthlyChart;
+
+        // Initialize charts
+        function initCharts() {
+            const chartConfig = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            usePointStyle: true,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                layout: {
+                    padding: 10
+                }
+            };
+
+            // Funnel Chart
+            const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+            funnelChart = new Chart(funnelCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Views', 'Signups', 'Purchases'],
+                    datasets: [{
+                        data: [0, 0, 0],
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(17, 153, 142, 0.8)',
+                            'rgba(240, 147, 251, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(102, 126, 234, 1)',
+                            'rgba(17, 153, 142, 1)',
+                            'rgba(240, 147, 251, 1)'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            },
+                            ticks: {
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Top Campaigns Chart
+            const campaignsCtx = document.getElementById('campaignsChart').getContext('2d');
+            campaignsChart = new Chart(campaignsCtx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Conversion Rate (%)',
+                        data: [],
+                        backgroundColor: 'rgba(118, 75, 162, 0.8)',
+                        borderColor: 'rgba(118, 75, 162, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            },
+                            ticks: {
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Channel Performance Chart
+            const channelCtx = document.getElementById('channelChart').getContext('2d');
+            channelChart = new Chart(channelCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        data: [],
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(17, 153, 142, 0.8)',
+                            'rgba(240, 147, 251, 0.8)',
+                            'rgba(79, 172, 254, 0.8)',
+                            'rgba(245, 87, 108, 0.8)'
+                        ],
+                        borderWidth: 3,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                usePointStyle: true,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Monthly Trends Chart
+            const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+            monthlyChart = new Chart(monthlyCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Purchases',
+                        data: [],
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(102, 126, 234, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            },
+                            ticks: {
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(0,0,0,0.05)'
+                            },
+                            ticks: {
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Upload form handler
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            const eventsFile = document.getElementById('eventsFile').files[0];
+            const costsFile = document.getElementById('costsFile').files[0];
+            
+            if (!eventsFile) {
+                showAlert('Please select an events CSV file', 'danger');
+                return;
+            }
+            
+            // Check file sizes (50MB limit)
+            const maxSize = 50 * 1024 * 1024;
+            
+            if (eventsFile.size > maxSize) {
+                showAlert(`Events file too large (${(eventsFile.size / 1024 / 1024).toFixed(1)}MB). Maximum size is 50MB.`, 'danger');
+                return;
+            }
+            
+            if (costsFile && costsFile.size > maxSize) {
+                showAlert(`Costs file too large (${(costsFile.size / 1024 / 1024).toFixed(1)}MB). Maximum size is 50MB.`, 'danger');
+                return;
+            }
+            
+            showAlert('Uploading files...', 'info');
+            
+            formData.append('events_csv', eventsFile);
+            if (costsFile) {
+                formData.append('costs_csv', costsFile);
+            }
+            
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    showAlert(data.error, 'danger');
+                } else {
+                    showAlert(data.message, 'success');
+                    loadDashboardData();
+                }
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
+                showAlert('Upload failed. Please check your file and try again.', 'danger');
+            });
+        });
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertHtml = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    <i class="bi bi-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+            alertContainer.innerHTML = alertHtml;
+        }
+
+        function updateKPICards(data) {
+            // Main KPI Cards
+            document.getElementById('viewsCount').textContent = data.views.toLocaleString();
+            document.getElementById('signupsCount').textContent = data.signups.toLocaleString();
+            document.getElementById('purchasesCount').textContent = data.purchases.toLocaleString();
+            document.getElementById('cacValue').textContent = data.estimated_cac > 0 ? '$' + data.estimated_cac.toLocaleString() : 'Not Available';
+            
+            // Summary Stats
+            if (data.data_quality) {
+                const overallCTR = data.data_quality.avg_ctr || 0;
+                document.getElementById('overallCTR').textContent = overallCTR.toFixed(2) + '%';
+                document.getElementById('avgConvRate').textContent = data.purchase_signup_rate.toFixed(1) + '%';
+                document.getElementById('totalCampaigns').textContent = data.data_quality.total_campaigns || 0;
+                document.getElementById('totalChannels').textContent = data.data_quality.total_channels || 0;
+                
+                // Data period and insights
+                if (data.data_quality.date_range && data.data_quality.date_range.start) {
+                    const startDate = new Date(data.data_quality.date_range.start).toLocaleDateString();
+                    const endDate = new Date(data.data_quality.date_range.end).toLocaleDateString();
+                    document.getElementById('dataPeriod').textContent = `${startDate} - ${endDate}`;
+                } else {
+                    document.getElementById('dataPeriod').textContent = 'Current Period';
+                }
+                
+                // Best performance insight
+                const bestRate = data.data_quality.best_campaign_rate || 0;
+                const topChannel = data.data_quality.top_performing_channel || 'N/A';
+                document.getElementById('bestPerformance').textContent = `Best: ${bestRate}% (${topChannel})`;
+            }
+        }
+
+        function updateCharts(data) {
+            // Update funnel chart
+            funnelChart.data.datasets[0].data = [data.views, data.signups, data.purchases];
+            funnelChart.update();
+
+            // Update campaigns chart with better labels and varied data
+            if (data.top_campaigns && data.top_campaigns.length > 0) {
+                const topCampaigns = data.top_campaigns.slice(0, 8);
+                campaignsChart.data.labels = topCampaigns.map(c => {
+                    const label = `${c.Campaign_ID}`;
+                    const channel = c.Channel_Used.length > 8 ? c.Channel_Used.substring(0, 8) + '...' : c.Channel_Used;
+                    return `${label} (${channel})`;
+                });
+                campaignsChart.data.datasets[0].data = topCampaigns.map(c => (c.purchase_signup_rate * 100).toFixed(1));
+                campaignsChart.data.datasets[0].backgroundColor = topCampaigns.map((_, index) => {
+                    const colors = [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(17, 153, 142, 0.8)',
+                        'rgba(240, 147, 251, 0.8)',
+                        'rgba(79, 172, 254, 0.8)',
+                        'rgba(245, 87, 108, 0.8)',
+                        'rgba(255, 193, 7, 0.8)',
+                        'rgba(220, 53, 69, 0.8)',
+                        'rgba(32, 201, 151, 0.8)'
+                    ];
+                    return colors[index % colors.length];
+                });
+                campaignsChart.update();
+            }
+
+            // Update channel chart
+            if (data.channel_performance && data.channel_performance.length > 0) {
+                channelChart.data.labels = data.channel_performance.map(c => c.Channel_Used);
+                channelChart.data.datasets[0].data = data.channel_performance.map(c => c.purchases);
+                channelChart.update();
+            }
+
+            // Update monthly chart with better styling
+            if (data.monthly_performance && data.monthly_performance.length > 0) {
+                monthlyChart.data.labels = data.monthly_performance.map(m => {
+                    const date = new Date(m.month + '-01');
+                    return date.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+                });
+                monthlyChart.data.datasets[0].data = data.monthly_performance.map(m => m.purchases);
+                
+                // Add clicks trend line
+                if (!monthlyChart.data.datasets[1]) {
+                    monthlyChart.data.datasets.push({
+                        label: 'Clicks',
+                        data: [],
+                        borderColor: 'rgba(17, 153, 142, 1)',
+                        backgroundColor: 'rgba(17, 153, 142, 0.1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(17, 153, 142, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    });
+                    monthlyChart.options.plugins.legend.display = true;
+                }
+                monthlyChart.data.datasets[1].data = data.monthly_performance.map(m => m.Clicks);
+                monthlyChart.update();
+            }
+        }
+
+        function updateTables(data) {
+            // Update channel table with realistic performance indicators
+            const channelTable = document.getElementById('channelTable').querySelector('tbody');
+            if (data.channel_performance && data.channel_performance.length > 0) {
+                channelTable.innerHTML = '';
+                data.channel_performance.slice(0, 10).forEach(channel => {
+                    // More realistic performance thresholds
+                    const ctr = channel.ctr || 0;
+                    const convRate = channel.actual_conversion_rate || (channel.Conversion_Rate * 100);
+                    
+                    let performanceClass = 'secondary';
+                    let performanceText = 'AVERAGE';
+                    
+                    if (convRate > 12 || ctr > 3) {
+                        performanceClass = 'success';
+                        performanceText = 'EXCELLENT';
+                    } else if (convRate > 8 || ctr > 2) {
+                        performanceClass = 'warning';
+                        performanceText = 'GOOD';
+                    } else if (convRate > 5 || ctr > 1) {
+                        performanceClass = 'info';
+                        performanceText = 'FAIR';
+                    } else {
+                        performanceClass = 'danger';
+                        performanceText = 'POOR';
+                    }
+                    
+                    const row = `
+                        <tr>
+                            <td><strong>${channel.Channel_Used}</strong></td>
+                            <td>${channel.Clicks.toLocaleString()}</td>
+                            <td>${ctr.toFixed(2)}%</td>
+                            <td>${channel.purchases.toLocaleString()}</td>
+                            <td><span class="performance-badge bg-${performanceClass} text-white">${performanceText}</span></td>
+                        </tr>
+                    `;
+                    channelTable.innerHTML += row;
+                });
+            }
+
+            // Update campaign table with more detailed information
+            const campaignTable = document.getElementById('campaignTable').querySelector('tbody');
+            if (data.top_campaigns && data.top_campaigns.length > 0) {
+                campaignTable.innerHTML = '';
+                data.top_campaigns.slice(0, 10).forEach(campaign => {
+                    const convRate = (campaign.purchase_signup_rate * 100);
+                    const ctr = campaign.ctr || ((campaign.Clicks / campaign.Impressions) * 100);
+                    
+                    let statusClass = 'secondary';
+                    let statusText = 'AVERAGE';
+                    
+                    if (convRate > 15) {
+                        statusClass = 'success';
+                        statusText = 'EXCELLENT';
+                    } else if (convRate > 10) {
+                        statusClass = 'primary';
+                        statusText = 'VERY GOOD';
+                    } else if (convRate > 7) {
+                        statusClass = 'warning';
+                        statusText = 'GOOD';
+                    } else if (convRate > 4) {
+                        statusClass = 'info';
+                        statusText = 'FAIR';
+                    } else {
+                        statusClass = 'danger';
+                        statusText = 'POOR';
+                    }
+                    
+                    const row = `
+                        <tr>
+                            <td>
+                                <strong>${campaign.Campaign_ID}</strong>
+                                ${campaign.Company ? `<br><small class="text-muted">${campaign.Company}</small>` : ''}
+                            </td>
+                            <td><span class="badge bg-light text-dark">${campaign.Channel_Used}</span></td>
+                            <td>
+                                ${convRate.toFixed(1)}%
+                                <br><small class="text-muted">CTR: ${ctr.toFixed(2)}%</small>
+                            </td>
+                            <td>
+                                <strong>${campaign.purchases}</strong>
+                                <br><small class="text-muted">${campaign.Clicks} clicks</small>
+                            </td>
+                            <td><span class="performance-badge bg-${statusClass} text-white">${statusText}</span></td>
+                        </tr>
+                    `;
+                    campaignTable.innerHTML += row;
+                });
+            }
+        }
+
+        function loadDashboardData() {
+            fetch('/dashboard.json')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showAlert(data.error, 'warning');
+                    } else {
+                        updateKPICards(data);
+                        updateCharts(data);
+                        updateTables(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading dashboard data:', error);
+                    showAlert('Error loading dashboard data', 'danger');
+                });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            loadDashboardData();
+            
+            // Handle window resize to maintain chart sizes
+            let resizeTimeout;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function() {
+                    if (funnelChart) funnelChart.resize();
+                    if (campaignsChart) campaignsChart.resize();
+                    if (channelChart) channelChart.resize();
+                    if (monthlyChart) monthlyChart.resize();
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
