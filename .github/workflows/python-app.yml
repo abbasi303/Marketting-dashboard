@@ -15,6 +15,9 @@ permissions:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./market-dashboard
 
     steps:
     - uses: actions/checkout@v4
@@ -39,7 +42,7 @@ jobs:
         
     - name: Test with pytest and coverage
       run: |
-        python -m pytest tests/ --cov=app --cov-report=xml --cov-report=term --cov-fail-under=80
+        python -m pytest tests/ --cov=app --cov-report=xml:coverage.xml --cov-report=term --cov-fail-under=80
         
     - name: Security audit with pip-audit
       run: |
@@ -65,18 +68,20 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
-        file: ./coverage.xml
+        file: ./market-dashboard/coverage.xml
         flags: unittests
         
     - name: Upload compliance artifacts
       uses: actions/upload-artifact@v4
       with:
         name: compliance-reports
-        path: docs/
+        path: market-dashboard/docs/
         
     - name: Upload test results
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: pytest-results
-        path: coverage.xml
+        path: |
+          market-dashboard/coverage.xml
+          market-dashboard/htmlcov/
